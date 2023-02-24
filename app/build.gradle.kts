@@ -23,6 +23,9 @@ plugins {
     id("nowinandroid.android.hilt")
     id("jacoco")
     id("nowinandroid.android.application.firebase")
+
+    id("io.gitlab.arturbosch.detekt").version("1.22.0")
+    id("es.horm.easyadldetektplugin.gradleplugin").version("0.0.1")
 }
 
 android {
@@ -119,6 +122,8 @@ dependencies {
     implementation(libs.androidx.profileinstaller)
 
     implementation(libs.coil.kt)
+
+    detektPlugins("es.horm.easyadldetektplugin:easyAdlDetektPlugin:0.0.1")
 }
 
 // androidx.test is forcing JUnit, 4.12. This forces it to use 4.13
@@ -127,5 +132,28 @@ configurations.configureEach {
         force(libs.junit4)
         // Temporary workaround for https://issuetracker.google.com/174733673
         force("org.objenesis:objenesis:2.6")
+    }
+}
+
+easyAdl {
+    archDescriptionPath = "C:\\Users\\thoma\\AndroidStudioProjects\\nowinandroid\\archDescription.eadl"
+}
+
+detekt {
+    toolVersion = "1.22.0"
+    config = files("../config/detekt/detekt.yml")
+    buildUponDefaultConfig = true
+}
+
+tasks {
+    withType<io.gitlab.arturbosch.detekt.Detekt> {
+        reports {
+            custom {
+                reportId = "ArchReport"
+                // This tells detekt, where it should write the report to,
+                // you have to specify this file in the gitlab pipeline config.
+                outputLocation.set(file("$buildDir/reports/detekt/archReport.html"))
+            }
+        }
     }
 }

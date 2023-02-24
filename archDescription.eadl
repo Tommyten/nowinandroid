@@ -1,0 +1,54 @@
+system UiLayer:
+    component Route:
+        has Suffix "Route"
+        is annotated with "Composable"
+        must reference component Screen
+        must reference component ViewModel
+        may not reference component Repository (hidden)
+        may not reference component DataSource (hidden)
+        may not reference component DataAccessObject (hidden)
+
+    component Screen:
+        has Suffix "Screen"
+        is annotated with "Composable"
+        may not reference component ViewModel
+        may not reference component Repository (hidden)
+        may not reference component DataSource (hidden)
+        may not reference component DataAccessObject (hidden)
+
+    component ViewModel:
+        has suffix "ViewModel"
+        is Class
+        may not reference component Screen
+        must reference component Repository
+        may reference component UseCase
+
+system DomainLayer:
+   component UseCase:
+       has postfix "UseCase"
+       is Class
+       must reference component Repository
+       must declare exactly "1" functions
+       must declare operator function "invoke"
+       may not reference component Route (hidden)
+       may not reference component Screen (hidden)
+       may not reference component ViewModel (hidden)
+
+system Datalayer:
+    component Repository:
+        has Suffix "Repository"
+        is Interface or class
+        may reference component DataSource
+        may reference component DataAccessObject
+        may not reference component UseCase (hidden)
+
+    component DataSource:
+        has suffix "DataSource"
+        is interface or class
+        may not reference component UseCase (hidden)
+
+    component DataAccessObject:
+        has suffix "Dao"
+        is Interface
+        is annotated with "Dao"
+        may not reference component UseCase (hidden)

@@ -17,6 +17,9 @@ plugins {
     id("nowinandroid.android.library")
     id("nowinandroid.android.library.jacoco")
     id("nowinandroid.android.hilt")
+
+    id("io.gitlab.arturbosch.detekt").version("1.22.0")
+    id("es.horm.easyadldetektplugin.gradleplugin").version("0.0.1")
 }
 
 android {
@@ -26,4 +29,28 @@ android {
 dependencies {
     implementation(libs.kotlinx.coroutines.android)
     testImplementation(project(":core:testing"))
+    detektPlugins("es.horm.easyadldetektplugin:easyAdlDetektPlugin:0.0.1")
+}
+
+easyAdl {
+    archDescriptionPath = "C:\\Users\\thoma\\AndroidStudioProjects\\nowinandroid\\archDescription.eadl"
+}
+
+detekt {
+    toolVersion = "1.22.0"
+    config = files("../../config/detekt/detekt.yml")
+    buildUponDefaultConfig = true
+}
+
+tasks {
+    withType<io.gitlab.arturbosch.detekt.Detekt> {
+        reports {
+            custom {
+                reportId = "ArchReport"
+                // This tells detekt, where it should write the report to,
+                // you have to specify this file in the gitlab pipeline config.
+                outputLocation.set(file("$buildDir/reports/detekt/archReport.html"))
+            }
+        }
+    }
 }
