@@ -1,3 +1,14 @@
+This fork of the Now in Android app aims to showcase the features of the [EasyADL Detekt plugin](https://github.com/Tommyten/easyAdlDetektPlugin) on a
+real-world project. For this, an architecture description file, [archDescription.eadl](archDescription.eadl)
+has been created, that describes the architecture of the Now in Android app as laid out in the
+[Architecture Learning Journey](docs/ArchitectureLearningJourney.md) and the official Android
+[Guide to app architecture](https://developer.android.com/topic/architecture). To use the EasyADL
+Detekt plugin to analyze the architecture of the Now in Android app, build the EasyADL Detekt plugin,
+publish it to your local Maven repository and execute the `detektMain` Gradle task on the module
+for which you want to generate an architecture report.
+
+# Original Now in Android readme
+
 ![Now in Android](docs/images/nia-splash.jpg "Now in Android")
 
 <a href="https://play.google.com/store/apps/details?id=com.google.samples.apps.nowinandroid"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="70"></a>
